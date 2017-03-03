@@ -20,26 +20,11 @@ public class Dialog {
         return reader.next();
     }
 
-    void showFormatMessage(String msg){
-        System.out.println(msg);
-    }
     void showFormatMessage(String msg, int newLinesCount){
         System.out.print(msg);
         for (int i = 0; i < newLinesCount; ++i){
             System.out.println();
         }
-    }
-
-    private Boolean isAnyNumber(String input){
-        return isNumber(input.substring(1, input.length())) && (input.charAt(0) == '-' || input.charAt(0) == '+')
-                || isNumber(input);
-    }
-    private Boolean isNumber(String input){
-        for (int i = 0; i < input.length(); ++i){
-            if (input.charAt(i) < '0' || input.charAt(i) > '9')
-                return false;
-        }
-        return true;
     }
 
     private int checkValueAndGetNaturalOrZeroResult(String input){
