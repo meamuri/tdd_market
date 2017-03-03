@@ -4,10 +4,10 @@ public class Application {
     public void run(){
         Dialog dialog = new Dialog();
 
-        MenuItem menu_item = MenuItem.ERROR_INPUT;
+        MenuItem menu_item;
         do {
             dialog.printMenu();
-            menu_item = dialog.getMenuItemDialog();
+            menu_item = dialog.getUserAction(dialog.printMsgAndGetInput());
             switch (menu_item){
                 case PRINT:
                     break;

@@ -2,19 +2,7 @@ package application;
 
 import java.util.Scanner;
 
-enum MenuItem{
-    PRINT,
-    BUY,
-    LOAD_FROM_TEXT_FILE,
-    LOAD_FROM_DATABASE,
-    SAVE_TO_TEXT_FILE,
-    SAVE_TO_DATABASE,
-
-    ERROR_INPUT,
-    EXIT,
-}
-
-class Dialog {
+public class Dialog {
     void printMenu(){
         System.out.println("\t* VsuJavaShop *\t");
         System.out.println("1\t Print Products");
@@ -26,29 +14,10 @@ class Dialog {
         System.out.println("0\t Exit");
     }
 
-    MenuItem getMenuItemDialog(){
+    String printMsgAndGetInput(){
         System.out.println("please, input number -> ");
-        try {
-            switch (userInputMenuItem()){
-                case 1:
-                    return MenuItem.BUY;
-                case 2:
-                    return MenuItem.PRINT;
-                case 3:
-                    return MenuItem.LOAD_FROM_TEXT_FILE;
-                case 4:
-                    return MenuItem.LOAD_FROM_DATABASE;
-                case 5:
-                    return MenuItem.SAVE_TO_TEXT_FILE;
-                case 6:
-                    return MenuItem.SAVE_TO_DATABASE;
-                default:
-                    return MenuItem.EXIT;
-            }
-        }
-        catch (NumberFormatException e) {
-            return MenuItem.ERROR_INPUT;
-        }
+        Scanner reader = new Scanner(System.in);
+        return reader.next();
     }
 
     void showFormatMessage(String msg){
@@ -61,14 +30,6 @@ class Dialog {
         }
     }
 
-    private int userInputMenuItem() {
-        Scanner reader = new Scanner(System.in);
-        String input = reader.next();
-        if (!isNumber(input) || input.length() > 1 || input.charAt(0) > '6')
-            throw new NumberFormatException("you should input number x in [0..6]");
-        return Integer.parseInt(input);
-    }
-
     private Boolean isAnyNumber(String input){
         return isNumber(input.substring(1, input.length())) && (input.charAt(0) == '-' || input.charAt(0) == '+')
                 || isNumber(input);
@@ -79,5 +40,45 @@ class Dialog {
                 return false;
         }
         return true;
+    }
+
+    private int checkValueAndGetNaturalOrZeroResult(String input){
+        if (input.length() == 0)
+            throw new NumberFormatException("your string is short for number convert!");
+        for (int i = 0; i < input.length(); ++i){
+            if (input.charAt(i) < '0' || input.charAt(i) > '9')
+                throw new NumberFormatException("that is not number in your string!");
+        }
+
+        return Integer.parseInt(input);
+    }
+
+
+    public MenuItem getUserAction(String input) {
+        try {
+            int menuItem = checkValueAndGetNaturalOrZeroResult(input);
+            switch (menuItem){
+                case 1:
+                    return MenuItem.PRINT;
+                case 2:
+                    return MenuItem.BUY;
+                case 3:
+                    return MenuItem.LOAD_FROM_TEXT_FILE;
+                case 4:
+                    return MenuItem.LOAD_FROM_DATABASE;
+                case 5:
+                    return MenuItem.SAVE_TO_TEXT_FILE;
+                case 6:
+                    return MenuItem.SAVE_TO_DATABASE;
+                case 0:
+                    return MenuItem.EXIT;
+                default:
+                    return MenuItem.NOT_IN_RANGE;
+            }
+        }
+        catch (NumberFormatException e){
+            return MenuItem.ERROR_INPUT;
+        }
+
     }
 }
