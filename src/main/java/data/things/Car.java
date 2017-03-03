@@ -3,10 +3,11 @@ package data.things;
 import data.abstracts.Thing;
 
 public class Car extends Thing{
-    private int horsePower;
-    public void infoAboutMe() {
-
+    public String getInfoAboutMe() {
+        return super.getInfoAboutMe();
     }
+
+    private int horsePower;
 
     public int getHorsePower() {
         return horsePower;
@@ -16,4 +17,6 @@ public class Car extends Thing{
         super(id, title, price);
         this.horsePower = horsePower;
     }
+
+
 }

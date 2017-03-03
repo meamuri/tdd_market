@@ -18,6 +18,9 @@ public abstract class Thing implements Item {
         return title;
     }
 
+    public String getInfoAboutMe() {
+        return id + "\t|" + title + "\t\t" + price + '\n';
+    }
 
     public double getPrice() {
         return price;

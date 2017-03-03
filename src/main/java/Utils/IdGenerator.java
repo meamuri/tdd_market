@@ -5,4 +5,7 @@ public class IdGenerator {
     static public long getMeNextId(){
         return currId++;
     }
+    static public long getCurrentMaxID(){
+        return currId;
+    }
 }

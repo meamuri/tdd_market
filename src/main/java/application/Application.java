@@ -27,6 +27,6 @@ public class Application {
                     break;
             }
         } while (menu_item != MenuItem.EXIT);
-        dialog.showFormatMessage("Thx, bye! App ");
+        dialog.showFormatMessage("Thx, bye! App ", 1);
     }
 }

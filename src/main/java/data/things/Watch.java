@@ -4,8 +4,9 @@ import data.abstracts.Thing;
 
 public class Watch extends Thing {
     private int ClockFaceCount;
-    public void infoAboutMe() {
 
+    public String getInfoAboutMe() {
+        return super.getInfoAboutMe();
     }
 
     public Watch(int id, String title, double price, int clockFaceCount) {
