@@ -1,17 +1,28 @@
 package application;
 
-public class Application {
-    public void run(){
-        Dialog dialog = new Dialog();
+import data.Manager;
+import data.Market;
 
+public class Application {
+    private Dialog dialog;
+    private Manager manager;
+
+    public Application() {
+        dialog = new Dialog();
+        manager = new Manager(new Market());
+    }
+
+    public void run(){
         MenuItem menu_item;
         do {
             dialog.printMenu();
             menu_item = dialog.getUserAction(dialog.printMsgAndGetInput());
             switch (menu_item){
                 case PRINT:
+                    // manager.Print();
                     break;
                 case BUY:
+                    // manager.Print();
                     break;
                 case LOAD_FROM_TEXT_FILE:
                     break;

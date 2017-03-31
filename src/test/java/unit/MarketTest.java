@@ -25,9 +25,9 @@ public class MarketTest {
 
     @Test
     public void userWantAddItem(){
-        Market m = new Market();
-        m.add(new Car(1, "bentley", 125216.99, 612));
-        Assert.assertEquals(1, m.count());
+        Market emptyMarket = new Market();
+        emptyMarket.add(new Car(1, "bentley", 125216.99, 612));
+        Assert.assertEquals(1, emptyMarket.count());
     }
 
     @Test
@@ -45,5 +45,18 @@ public class MarketTest {
         Assert.assertEquals("Fender", market.getItemById(5).getTitle());
         market.deleteItemById(5);
         Assert.assertNull(market.getItemById(5));
+    }
+
+    @Test
+    public void userWantAddToItemsWithSameIds(){
+        Boolean result = market.add(new Car(1, "Bentley FlyingSpur", 229216.99, 630));
+        Assert.assertTrue(!result);
+    }
+
+    @Test
+    public void userWantDeleteItemByIllegalId(){
+        Boolean res = market.deleteItemById(512);
+        Assert.assertTrue(!res);
+        Assert.assertTrue(market.deleteItemById(5));
     }
 }
