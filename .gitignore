@@ -1,1 +1,12 @@
 .idea
+*.iml
+*.ipr
+*.iws
+out
+test-output
+atlassian-ide-plugin.xml
+.gradletasknamecache
+target/classes/data/Manager.class
+target/generated-sources/
+target/generated-test-sources/
+target/test-classes/unit/ManagerTest.class
