@@ -3,7 +3,7 @@ package application;
 import java.util.Scanner;
 
 public class Dialog {
-    void printMenu(){
+    void printMenu() {
         System.out.println("\t* VsuJavaShop *\t");
         System.out.println("1\t Print Products");
         System.out.println("2\t Buy Product");

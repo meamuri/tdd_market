@@ -30,4 +30,9 @@ public class DialogTest {
         Assert.assertTrue(dialog.getUserAction("-124") == MenuItem.ERROR_INPUT);
         Assert.assertTrue(dialog.getUserAction("124") == MenuItem.NOT_IN_RANGE);
     }
+
+    @Test
+    public void userSelectWhatKindOfItemsHeWant(){
+
+    }
 }

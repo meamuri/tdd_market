@@ -10,3 +10,6 @@ target/classes/data/Manager.class
 target/generated-sources/
 target/generated-test-sources/
 target/test-classes/unit/ManagerTest.class
+
+# Compiled class file
+*.class
