@@ -9,7 +9,7 @@ public class Watch extends Thing {
         return super.getInfoAboutMe();
     }
 
-    public Watch(int id, String title, double price, int clockFaceCount) {
+    public Watch(long id, String title, double price, int clockFaceCount) {
         super(id, title, price);
         ClockFaceCount = clockFaceCount;
     }

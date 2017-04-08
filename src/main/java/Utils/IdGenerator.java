@@ -1,11 +1,14 @@
 package Utils;
 
 public class IdGenerator {
-    static private long currId = 0;
-    static public long getMeNextId(){
-        return currId++;
+    private long currId = 0;
+    public long getNextId(){
+        return ++currId;
     }
-    static public long getCurrentMaxID(){
+    public long getCurrentID(){
         return currId;
+    }
+    public void setZeroIdAndStartAgain() {
+        currId = 0;
     }
 }

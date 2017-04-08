@@ -1,15 +1,14 @@
 package application;
 
-import data.Manager;
 import data.Market;
 
 public class Application {
     private Dialog dialog;
-    private Manager manager;
+    private Market market;
 
     public Application() {
         dialog = new Dialog();
-        manager = new Manager(new Market());
+        market = new Market();
     }
 
     public void run() {

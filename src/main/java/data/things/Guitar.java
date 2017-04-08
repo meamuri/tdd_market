@@ -9,7 +9,7 @@ public class Guitar extends Thing{
         return super.getInfoAboutMe();
     }
 
-    public Guitar(int id, String title, double price, int stringCount) {
+    public Guitar(long id, String title, double price, int stringCount) {
         super(id, title, price);
         this.stringCount = stringCount;
     }

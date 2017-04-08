@@ -1,5 +1,6 @@
 package unit;
 
+import data.KindOfItem;
 import data.Market;
 import data.abstracts.Thing;
 import data.things.Car;
@@ -15,48 +16,38 @@ public class MarketTest {
     @Before
     public void setup(){
         market = new Market();
-        market.add(new Car(1, "Bentley", 199216.99, 612));
-        market.add(new Car(2, "RollsRoyce", 252016.99, 599));
-        market.add(new Car(3, "BMW 760Li", 125216.99, 620));
-        market.add(new Car(4, "Audi s8", 125216.99, 540));
-        market.add(new Guitar(5, "Fender", 216.99, 5));
-        market.add(new Watch(6, "Longines", 1216.99, 1));
+        market.addItemToMarket("Bentley", 199216.99, 612, KindOfItem.CAR);
+        market.addItemToMarket("RollsRoyce", 252016.99, 599, KindOfItem.CAR);
+        market.addItemToMarket("BMW 760Li", 125216.99, 620, KindOfItem.CAR);
+        market.addItemToMarket("Audi s8", 125216.99, 540, KindOfItem.CAR);
+        market.addItemToMarket("Fender", 216.99, 5, KindOfItem.GUITAR);
+        market.addItemToMarket("Longines", 1216.99, 1, KindOfItem.WATCH);
     }
 
     @Test
     public void userWantAddItem(){
-        Market emptyMarket = new Market();
-        emptyMarket.add(new Car(1, "bentley", 125216.99, 612));
-        Assert.assertEquals(1, emptyMarket.count());
+        Assert.assertEquals(6, market.count());
     }
 
     @Test
     public void userWantGetItemById(){
-        market.add(new Car(10, "Mercedes", 2300000,600));
-        Thing th = market.getItemById(10);
-        Assert.assertEquals("Mercedes", th.getTitle());
-        th = market.getItemById(1);
+        Thing th = market.getItemById(1);
         Assert.assertEquals("Bentley", th.getTitle());
         Assert.assertNull(market.getItemById(12512));
     }
 
     @Test
     public void userWantDeleteItemById(){
-        Assert.assertEquals("Fender", market.getItemById(5).getTitle());
+        Thing th = market.getItemById(5);
+        Assert.assertEquals("Fender", th.getTitle());
         market.deleteItemById(5);
         Assert.assertNull(market.getItemById(5));
     }
 
     @Test
-    public void userWantAddToItemsWithSameIds(){
-        Boolean result = market.add(new Car(1, "Bentley FlyingSpur", 229216.99, 630));
-        Assert.assertTrue(!result);
-    }
-
-    @Test
     public void userWantDeleteItemByIllegalId(){
         Boolean res = market.deleteItemById(512);
-        Assert.assertTrue(!res);
-        Assert.assertTrue(market.deleteItemById(5));
+        Assert.assertFalse(res);
+        Assert.assertTrue(market.deleteItemById(6));
     }
 }

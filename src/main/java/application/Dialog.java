@@ -20,6 +20,12 @@ public class Dialog {
         return reader.next();
     }
 
+    String printMsgAndGetInput(String msg){
+        System.out.println(msg);
+        Scanner reader = new Scanner(System.in);
+        return reader.next();
+    }
+
     void showFormatMessage(String msg, int newLinesCount){
         System.out.print(msg);
         for (int i = 0; i < newLinesCount; ++i){
@@ -28,8 +34,11 @@ public class Dialog {
     }
 
     private int checkValueAndGetNaturalOrZeroResult(String input){
+        // выход по исключению если пустая строка
         if (input.length() == 0)
             throw new NumberFormatException("your string is short for number convert!");
+
+        // или если какой-то из символов -- не цифры
         for (int i = 0; i < input.length(); ++i){
             if (input.charAt(i) < '0' || input.charAt(i) > '9')
                 throw new NumberFormatException("that is not number in your string!");
@@ -37,7 +46,6 @@ public class Dialog {
 
         return Integer.parseInt(input);
     }
-
 
     public MenuItem getUserAction(String input) {
         try {
@@ -64,6 +72,7 @@ public class Dialog {
         catch (NumberFormatException e){
             return MenuItem.ERROR_INPUT;
         }
+    } // ... func getUserAction()
 
-    }
-}
+
+} // ... class Dialog

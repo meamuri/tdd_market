@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.LinkedHashMap;
+
 public class DialogTest {
     private Dialog dialog;
     @Before
@@ -31,8 +33,4 @@ public class DialogTest {
         Assert.assertTrue(dialog.getUserAction("124") == MenuItem.NOT_IN_RANGE);
     }
 
-    @Test
-    public void userSelectWhatKindOfItemsHeWant(){
-
-    }
 }
