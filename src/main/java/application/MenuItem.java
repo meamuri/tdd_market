@@ -5,6 +5,7 @@ public enum MenuItem{
 
     PRINT,
     BUY,
+    ADD,
     LOAD_FROM_TEXT_FILE,
     LOAD_FROM_DATABASE,
     SAVE_TO_TEXT_FILE,

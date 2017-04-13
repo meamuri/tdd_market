@@ -1,4 +1,4 @@
-package Utils;
+package utils;
 
 public class IdGenerator {
     private long currId = 0;

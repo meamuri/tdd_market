@@ -1,6 +1,9 @@
 package application;
 
+import data.KindOfItem;
 import data.Market;
+import data.Resources;
+import utils.ConvertorsAndChecks;
 
 public class Application {
     private Dialog dialog;
@@ -22,6 +25,9 @@ public class Application {
                     break;
                 case BUY:
                     Buy();
+                    break;
+                case ADD:
+                    Add();
                     break;
                 case LOAD_FROM_TEXT_FILE:
                     LoadFromTextFile();
@@ -61,8 +67,47 @@ public class Application {
         
     }
 
-    private void Print(){
+    private void Add() {
+        String type = dialog.printMsgAndGetInput(Resources.inviteForInputObjectKind);
+        if (!ConvertorsAndChecks.isNaturalDigitString(type)) {
+            dialog.showFormatMessage("Введено некорректное значение!", 1);
+            return;
+        }
 
+        KindOfItem kind = Resources.getTypeOfItem(Integer.parseInt(type));
+        if (kind == KindOfItem.UNKNOWN){
+            dialog.showFormatMessage("Неизвестный тип товара", 1);
+            return;
+        }
+
+        String title = dialog.printMsgAndGetInput("Введите название товара");
+        String price = dialog.printMsgAndGetInput("Введите цену товара");
+        if (!ConvertorsAndChecks.isDoubleDigit(price)){
+            dialog.showFormatMessage("Цена товара введена некорректно!", 1);
+            return;
+        }
+        Double p = Double.parseDouble(price);
+        if (p < 0) {
+            dialog.showFormatMessage("Цена товара не может быть отризцательной!", 1);
+            return;
+        }
+
+        String info = dialog.printMsgAndGetInput(Resources.inviteForInputSpecialInfo(kind));
+        if (!ConvertorsAndChecks.isNaturalDigitString(info)){
+            dialog.showFormatMessage("Цена товара введена некорректно!", 1);
+            return;
+        }
+
+
+        Integer inf = Integer.parseInt(info);
+        market.addItemToMarket(title, p, inf, kind);
+    }
+
+    private void Print(){
+        String[] rows = market.serializeToStrings();
+        for (String row: rows){
+            dialog.printMsg(row);
+        }
     }
 
     private void Buy(){

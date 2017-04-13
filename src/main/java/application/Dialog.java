@@ -1,5 +1,8 @@
 package application;
 
+import exceptions.UserInputException;
+import utils.ConvertorsAndChecks;
+
 import java.util.Scanner;
 
 public class Dialog {
@@ -7,10 +10,11 @@ public class Dialog {
         System.out.println("\t* VsuJavaShop *\t");
         System.out.println("1\t Print Products");
         System.out.println("2\t Buy Product");
-        System.out.println("3\t Load info from text-file");
-        System.out.println("4\t Load info from database");
-        System.out.println("5\t Save info to file");
-        System.out.println("6\t Save info to database");
+        System.out.println("3\t Add Product");
+        System.out.println("4\t Load info from text-file");
+        System.out.println("5\t Load info from database");
+        System.out.println("6\t Save info to file");
+        System.out.println("7\t Save info to database");
         System.out.println("0\t Exit");
     }
 
@@ -26,6 +30,10 @@ public class Dialog {
         return reader.next();
     }
 
+    void printMsg(String msg){
+        System.out.println(msg);
+    }
+
     void showFormatMessage(String msg, int newLinesCount){
         System.out.print(msg);
         for (int i = 0; i < newLinesCount; ++i){
@@ -34,15 +42,8 @@ public class Dialog {
     }
 
     private int checkValueAndGetNaturalOrZeroResult(String input){
-        // выход по исключению если пустая строка
-        if (input.length() == 0)
-            throw new NumberFormatException("your string is short for number convert!");
-
-        // или если какой-то из символов -- не цифры
-        for (int i = 0; i < input.length(); ++i){
-            if (input.charAt(i) < '0' || input.charAt(i) > '9')
-                throw new NumberFormatException("that is not number in your string!");
-        }
+        if (!ConvertorsAndChecks.isNaturalDigitString(input))
+            throw new UserInputException("Пользователь ввел не натуральное число");
 
         return Integer.parseInt(input);
     }
@@ -56,12 +57,14 @@ public class Dialog {
                 case 2:
                     return MenuItem.BUY;
                 case 3:
-                    return MenuItem.LOAD_FROM_TEXT_FILE;
+                    return MenuItem.ADD;
                 case 4:
-                    return MenuItem.LOAD_FROM_DATABASE;
+                    return MenuItem.LOAD_FROM_TEXT_FILE;
                 case 5:
-                    return MenuItem.SAVE_TO_TEXT_FILE;
+                    return MenuItem.LOAD_FROM_DATABASE;
                 case 6:
+                    return MenuItem.SAVE_TO_TEXT_FILE;
+                case 7:
                     return MenuItem.SAVE_TO_DATABASE;
                 case 0:
                     return MenuItem.EXIT;
@@ -69,7 +72,7 @@ public class Dialog {
                     return MenuItem.NOT_IN_RANGE;
             }
         }
-        catch (NumberFormatException e){
+        catch (UserInputException e){
             return MenuItem.ERROR_INPUT;
         }
     } // ... func getUserAction()

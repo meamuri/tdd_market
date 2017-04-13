@@ -1,6 +1,6 @@
 package data;
 
-import Utils.IdGenerator;
+import utils.IdGenerator;
 import data.abstracts.Thing;
 import data.things.Car;
 import data.things.Guitar;
@@ -125,22 +125,16 @@ public class Market{
     }
 
 
-    /**
-     * Функция определяет, объект какого типа пользователь желает создать
-     * @param userInput - число, соответствующее объекту определенного типа
-     * @return Перечисление, которое может также имеет специальное значение "неизвестно"
-     */
-    static public KindOfItem getTypeOfItem(int userInput){
-        switch (userInput){
-            case 1:
-                return KindOfItem.CAR;
-            case 2:
-                return KindOfItem.WATCH;
-            case 3:
-                return KindOfItem.GUITAR;
-            default:
-                return KindOfItem.UNKNOWN;
+    public String[] serializeToStrings(){
+        String[] res = new String[count()];
+        int i = 0;
+        for (Thing th: things) {
+            res[i] = th.getInfoAboutMe();
+            ++i;
         }
+        return res;
     }
+
+
 
 }
