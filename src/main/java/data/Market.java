@@ -112,10 +112,11 @@ public class Market{
 
         int k = 0;
         for (Thing thing: things) {
+            // тк мы точно знаем, что объект с таким id есть в коллекции, for пока не найдем его
             if (id == thing.getId()) {
                 break;
             }
-            ++k;
+            ++k; // порядковый номер элемента в коллекции, по которому будет произведено удаление
         }
 
         things.remove(k);
