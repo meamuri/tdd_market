@@ -41,6 +41,7 @@ public class Application {
                 case SAVE_TO_DATABASE:
                     SaveToDataBase();
                     break;
+                case NOT_IN_RANGE:
                 case ERROR_INPUT:
                     PrintAboutErrorInput();
                     break;
@@ -52,6 +53,7 @@ public class Application {
     }
 
     private void PrintAboutErrorInput() {
+        dialog.showFormatMessage("Неправильно выбран пункт меню!", 1);
     }
 
     private void SaveToDataBase() {
@@ -111,7 +113,20 @@ public class Application {
     }
 
     private void Buy(){
+        Print();
+        String input = dialog.printMsgAndGetInput("Введите id товара, который желаете приобрести:");
+        if (!ConvertorsAndChecks.isNaturalDigitString(input)) {
+            dialog.showFormatMessage("Введенная строка не является натуральным числом!", 1);
+            return;
+        }
 
+        int inf = Integer.parseInt(input);
+        if (market.deleteItemById(inf)) {
+            dialog.printMsg("Товар успешно приобретен и удален из списка товаров");
+        }
+        else {
+            dialog.printMsg("Товар не найден в списке доступных");
+        }
     }
 
 

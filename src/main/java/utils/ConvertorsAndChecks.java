@@ -40,4 +40,8 @@ public class ConvertorsAndChecks {
         return true;
     }
 
+    public static int convertTrustStringToUInt(String s){
+        return Integer.parseInt(s);
+    }
+
 }
