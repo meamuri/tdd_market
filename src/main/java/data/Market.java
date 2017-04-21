@@ -8,6 +8,7 @@ import data.things.Watch;
 
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+//import java.util.stream.Collectors;
 
 public class Market{
 
@@ -16,6 +17,7 @@ public class Market{
     private LinkedList<Thing> things;           // объект-коллекция всех товаров магазина
     private LinkedHashSet<Long> ids;            // объект, содержащий информацию об уже использованных id
     private IdGenerator generator;              // объект, присваивающий товарам новый id
+    private String fileName;
 
     /**
      * функция добавляет уже сформированный товар в коллекцию
@@ -38,6 +40,8 @@ public class Market{
         things = new LinkedList<Thing>();
         ids = new LinkedHashSet<Long>();
         generator = new IdGenerator();
+
+        fileName = "market_log.txt";
     }
 
     /* Публичные методы */
@@ -132,9 +136,15 @@ public class Market{
             res[i] = th.getInfoAboutMe();
             ++i;
         }
+        // things.stream().map(th -> th.getInfoAboutMe()).collect(Collectors.toList());
         return res;
     }
 
+    public boolean saveToTextFile() {
+        String[] output = serializeToStrings();
+
+        return true;
+    }
 
 
 }
