@@ -28,7 +28,7 @@ public class DialogTest {
     @Test
     public void userMakeSomeActionsInDialog(){
         Assert.assertTrue(dialog.getUserAction("0") == MenuItem.EXIT);
-        Assert.assertTrue(dialog.getUserAction("3") == MenuItem.LOAD_FROM_TEXT_FILE);
+        Assert.assertTrue(dialog.getUserAction("3") == MenuItem.ADD);
         Assert.assertTrue(dialog.getUserAction("-124") == MenuItem.ERROR_INPUT);
         Assert.assertTrue(dialog.getUserAction("124") == MenuItem.NOT_IN_RANGE);
     }
