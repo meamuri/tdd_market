@@ -8,14 +8,14 @@ import data.things.Watch;
 
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.TreeMap;
 //import java.util.stream.Collectors;
 
 public class Market{
 
     /* Закрытые поля и методы */
 
-    private LinkedList<Thing> things;           // объект-коллекция всех товаров магазина
-    private LinkedHashSet<Long> ids;            // объект, содержащий информацию об уже использованных id
+    private TreeMap<Long, Thing> things;
     private IdGenerator generator;              // объект, присваивающий товарам новый id
     private String fileName;
 
@@ -24,8 +24,7 @@ public class Market{
      * @param th новый товар коллекции
      */
     private void addInternalItem(Thing th) {
-        ids.add(th.getId());
-        things.add(th);
+        things.put(th.getId(), th);
     }
 
     /* Свойства */
@@ -37,10 +36,8 @@ public class Market{
     /* Конструкторы */
 
     public Market() {
-        things = new LinkedList<Thing>();
-        ids = new LinkedHashSet<Long>();
+        things = new TreeMap<Long, Thing>();
         generator = new IdGenerator();
-
         fileName = "market_log.txt";
     }
 
@@ -54,11 +51,10 @@ public class Market{
      */
     private boolean add(Thing thing) {
         long idOfThing = thing.getId();
-        if (ids.contains(idOfThing))
+        if (things.containsKey(idOfThing))
             return false;
 
-        things.add(thing);
-        ids.add(idOfThing);
+        things.put(idOfThing, thing);
         return true;
     }
 
@@ -94,37 +90,19 @@ public class Market{
     }
 
     public Thing getItemById(long i) {
-        if (!ids.contains(i))
+        if (!things.containsKey(i))
             return null;
 
-        Thing res = null;
-        for (Thing thing: things){
-            if (i == thing.getId()) {
-                res = thing;
-                break;
-            }
-        }
-
-        return res;
+        return things.get(i);
     }
 
 
     public boolean deleteItemById(long id) {
         // если множество сейчас не содержит такой элемент, возвращаем false -- не удалось удалить
-        if (!ids.contains(id))
+        if (!things.containsKey(id))
             return false;
 
-        int k = 0;
-        for (Thing thing: things) {
-            // тк мы точно знаем, что объект с таким id есть в коллекции, for пока не найдем его
-            if (id == thing.getId()) {
-                break;
-            }
-            ++k; // порядковый номер элемента в коллекции, по которому будет произведено удаление
-        }
-
-        things.remove(k);
-        ids.remove(id);
+        things.remove(id);
         return true;
     }
 
@@ -132,7 +110,7 @@ public class Market{
     public String[] serializeToStrings(){
         String[] res = new String[count()];
         int i = 0;
-        for (Thing th: things) {
+        for (Thing th: things.values()) {
             res[i] = th.getInfoAboutMe();
             ++i;
         }
@@ -145,6 +123,5 @@ public class Market{
 
         return true;
     }
-
 
 }
