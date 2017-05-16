@@ -19,7 +19,7 @@ public abstract class Thing implements Item {
     }
 
     public String getInfoAboutMe() {
-        return id + "\t| " + title + "\t\t| " + price + '\n';
+        return id + "\t| " + title + "\t\t| " + price + "\t\t| ";
     }
 
     public double getPrice() {

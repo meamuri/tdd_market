@@ -4,7 +4,7 @@ import data.abstracts.Thing;
 
 public class Car extends Thing{
     public String getInfoAboutMe() {
-        return super.getInfoAboutMe();
+        return super.getInfoAboutMe() + horsePower + "\t|c";
     }
 
     private int horsePower;

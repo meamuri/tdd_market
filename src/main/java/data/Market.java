@@ -128,7 +128,7 @@ public class Market{
         Path path = Paths.get(outDirPrefix + fileName);
         try {
             try (BufferedWriter writer = Files.newBufferedWriter(path)) {
-                String str = serializeToList().stream().collect(Collectors.joining());
+                String str = serializeToList().stream().collect(Collectors.joining("\n"));
                 writer.write(str);
             }
         }
@@ -139,7 +139,7 @@ public class Market{
     }
 
     public boolean saveToFile(String name) {
-        if (name.equals(fileName)){
+        if (name == null || name.equals(fileName) || name.isEmpty()|| name.equals(".")){
             return saveToFile();
         }
 

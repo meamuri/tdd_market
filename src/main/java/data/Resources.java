@@ -26,7 +26,8 @@ public class Resources {
             "3. Гитара\n";
 
     public static String inviteForInputFileName =
-            "Введите имя файла, в который нужно сохранить";
+            "Введите имя файла, в который нужно сохранить\n" +
+            "Введите точку чтобы использовать прежнее имя";
 
     public static String inviteForInputSpecialInfo(KindOfItem k) {
         String res = "Введите ";

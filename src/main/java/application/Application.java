@@ -79,25 +79,25 @@ public class Application {
     private void Add() {
         String type = dialog.printMsgAndGetInput(Resources.inviteForInputObjectKind);
         if (!ConvertorsAndChecks.isNaturalDigitString(type)) {
-            dialog.showFormatMessage("Введено некорректное значение!", 1);
+            dialog.printMsg("Введено некорректное значение!");
             return;
         }
 
         KindOfItem kind = Resources.getTypeOfItem(Integer.parseInt(type));
         if (kind == KindOfItem.UNKNOWN){
-            dialog.showFormatMessage("Неизвестный тип товара", 1);
+            dialog.printMsg("Неизвестный тип товара");
             return;
         }
 
         String title = dialog.printMsgAndGetInput("Введите название товара");
         String price = dialog.printMsgAndGetInput("Введите цену товара");
         if (!ConvertorsAndChecks.isDoubleDigit(price)){
-            dialog.showFormatMessage("Цена товара введена некорректно!", 1);
+            dialog.printMsg("Цена товара введена некорректно!");
             return;
         }
         Double p = Double.parseDouble(price);
         if (p < 0) {
-            dialog.showFormatMessage("Цена товара не может быть отризцательной!", 1);
+            dialog.printMsg("Цена товара не может быть отризцательной!");
             return;
         }
 
@@ -115,7 +115,7 @@ public class Application {
     private void Print(){
         String[] rows = market.serializeToStrings();
         for (String row: rows){
-            dialog.printMsg(row);
+            dialog.showFormatMessage(row, 2);
         }
     }
 
@@ -123,7 +123,7 @@ public class Application {
         Print();
         String input = dialog.printMsgAndGetInput("Введите id товара, который желаете приобрести:");
         if (!ConvertorsAndChecks.isNaturalDigitString(input)) {
-            dialog.showFormatMessage("Введенная строка не является натуральным числом!", 1);
+            dialog.printMsg("Введенная строка не является натуральным числом!");
             return;
         }
 
