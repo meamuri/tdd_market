@@ -6,10 +6,10 @@ import data.things.Car;
 import data.things.Guitar;
 import data.things.Watch;
 
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.TreeMap;
-//import java.util.stream.Collectors;
+import java.util.stream.Collectors;
 
 public class Market{
 
@@ -108,14 +108,11 @@ public class Market{
 
 
     public String[] serializeToStrings(){
-        String[] res = new String[count()];
-        int i = 0;
-        for (Thing th: things.values()) {
-            res[i] = th.getInfoAboutMe();
-            ++i;
-        }
-        // things.stream().map(th -> th.getInfoAboutMe()).collect(Collectors.toList());
-        return res;
+        List<String> res = things.values().
+                stream().
+                map(Thing::getInfoAboutMe).
+                collect(Collectors.toList());
+        return res.toArray(new String[res.size()]);
     }
 
     public boolean saveToTextFile() {
