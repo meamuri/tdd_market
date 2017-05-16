@@ -6,7 +6,12 @@ import data.things.Car;
 import data.things.Guitar;
 import data.things.Watch;
 
-import java.util.LinkedList;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
@@ -18,6 +23,7 @@ public class Market{
     private TreeMap<Long, Thing> things;
     private IdGenerator generator;              // объект, присваивающий товарам новый id
     private String fileName;
+    private String outDirPrefix = "io/";
 
     /**
      * функция добавляет уже сформированный товар в коллекцию
@@ -36,9 +42,9 @@ public class Market{
     /* Конструкторы */
 
     public Market() {
-        things = new TreeMap<Long, Thing>();
+        things = new TreeMap<>();
         generator = new IdGenerator();
-        fileName = "market_log.txt";
+        fileName = "out.txt";
     }
 
     /* Публичные методы */
@@ -106,19 +112,53 @@ public class Market{
         return true;
     }
 
-
-    public String[] serializeToStrings(){
-        List<String> res = things.values().
+    private List<String> serializeToList() {
+        return things.values().
                 stream().
                 map(Thing::getInfoAboutMe).
                 collect(Collectors.toList());
+    }
+
+    public String[] serializeToStrings(){
+        List<String> res = serializeToList();
         return res.toArray(new String[res.size()]);
     }
 
-    public boolean saveToTextFile() {
-        String[] output = serializeToStrings();
-
+    public boolean saveToFile() {
+        Path path = Paths.get(outDirPrefix + fileName);
+        try {
+            try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+                String str = serializeToList().stream().collect(Collectors.joining());
+                writer.write(str);
+            }
+        }
+        catch (IOException e){
+            return false;
+        }
         return true;
+    }
+
+    public boolean saveToFile(String name) {
+        if (name.equals(fileName)){
+            return saveToFile();
+        }
+
+        String oldName = fileName;
+
+        fileName = name;
+        if (!saveToFile()){
+            fileName = oldName;
+            return false;
+        }
+
+        try {
+            File old_f = new File(outDirPrefix + oldName);
+            if (old_f.exists())
+                Files.delete(old_f.toPath());
+        }
+        catch (IOException ignored){ }
+        return true;
+
     }
 
 }

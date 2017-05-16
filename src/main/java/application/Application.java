@@ -53,13 +53,20 @@ public class Application {
     }
 
     private void PrintAboutErrorInput() {
-        dialog.showFormatMessage("Неправильно выбран пункт меню!", 1);
+        dialog.printMsg("Неправильно выбран пункт меню!");
     }
 
     private void SaveToDataBase() {
     }
 
     private void SaveToTextFile() {
+        String name = dialog.printMsgAndGetInput(Resources.inviteForInputFileName);
+        if (market.saveToFile(name)){
+            dialog.printMsg("Сохранение прошло успешно");
+        }
+        else {
+            dialog.printMsg("Сохранение завершилось неудачно");
+        }
     }
 
     private void LoadFromDataBase() {

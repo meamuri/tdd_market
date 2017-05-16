@@ -25,6 +25,9 @@ public class Resources {
             "2. Часы\n" +
             "3. Гитара\n";
 
+    public static String inviteForInputFileName =
+            "Введите имя файла, в который нужно сохранить";
+
     public static String inviteForInputSpecialInfo(KindOfItem k) {
         String res = "Введите ";
         switch (k) {

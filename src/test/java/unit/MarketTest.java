@@ -47,4 +47,5 @@ public class MarketTest {
         Assert.assertFalse(res);
         Assert.assertTrue(market.deleteItemById(6));
     }
+
 }
