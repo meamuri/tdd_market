@@ -70,10 +70,21 @@ public class Application {
     }
 
     private void LoadFromDataBase() {
+
     }
 
     private void LoadFromTextFile() {
-        
+        if (market.count() == 0 ||
+                market.count() > 0 &&
+                        dialog.printMsgAndGetInput("вы уверены что хотите перезаписать данные?(y/n)")
+                                .equals("y")) {
+            if (market.loadFromFile()) {
+                dialog.printMsg("Данные перезаписаны");
+            }
+            else {
+                dialog.printMsg("Не удалось загрузить данные из файла");
+            }
+        }
     }
 
     private void Add() {

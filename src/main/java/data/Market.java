@@ -6,15 +6,18 @@ import data.things.Car;
 import data.things.Guitar;
 import data.things.Watch;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Market{
 
@@ -158,7 +161,27 @@ public class Market{
         }
         catch (IOException ignored){ }
         return true;
-
     }
 
+    public boolean loadFromFile() {
+        Path path = Paths.get(outDirPrefix + fileName);
+        try {
+            try (Stream<String> reader = Files.lines(path)) {
+                TreeMap<Long, Thing> res = new TreeMap<>();
+                List<String> lines = reader.collect(Collectors.toList());
+                for(String l: lines){
+                    String[] params = l.split("\\|");
+                    if (params.length != 5)
+                        return false;
+                    Thing th = Factory.ThingByRawString(params);
+                    res.put(th.getId(), th);
+                }
+                this.things = res;
+            }
+        }
+        catch (IOException e) {
+            return false;
+        }
+        return true;
+    }
 }
