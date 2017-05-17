@@ -4,4 +4,6 @@ public enum Filters {
     TYPE,
     PRICE,
     SPECIAL,
+
+    None,
 }

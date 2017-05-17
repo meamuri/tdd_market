@@ -2,6 +2,7 @@ package application;
 
 import application.enums.DeleteOptions;
 import application.enums.MenuItem;
+import application.enums.Ordering;
 import exceptions.UserInputException;
 import utils.ConvertorsAndChecks;
 
@@ -11,6 +12,12 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Dialog {
+    private String lastQuery = "1";
+
+    String getLastQuery() {
+        return lastQuery;
+    }
+
     void printMenu() {
         System.out.println("\t* VsuJavaShop *\t");
         System.out.println("1\t Print Products");
@@ -24,16 +31,15 @@ public class Dialog {
         System.out.println("0\t Exit");
     }
 
-    String printMsgAndGetInput(){
-        System.out.println("please, input number -> ");
-        Scanner reader = new Scanner(System.in);
-        return reader.next();
+    String printMsgAndGetInput() {
+        return printMsgAndGetInput("please, input number -> ");
     }
 
     String printMsgAndGetInput(String msg){
         System.out.println(msg);
         Scanner reader = new Scanner(System.in);
-        return reader.nextLine();
+        lastQuery = reader.nextLine();
+        return lastQuery;
     }
 
     void printMsg(String msg){
@@ -85,7 +91,26 @@ public class Dialog {
         }
     } // ... func getUserAction()
 
-    public boolean isYesAnswer(String msg){
+    private boolean isCorrectParametricInput(String input) {
+        if (!input.contains("--")){
+            return false;
+        }
+
+        String[] parts = input.split("--");
+        parts[0] = parts[0].trim();
+        if (parts.length != 2) {
+            return false;
+        }
+
+        if (parts[0].length() > 1 ||
+                !(parts[0].charAt(0) >= '0' && parts[0].charAt(0) <= '9'))
+            return false;
+
+        parts = parts[1].split("=");
+        return parts[0].trim().length() != 0 && parts[1].trim().length() == 1;
+    }
+
+    boolean isYesAnswer(String msg){
         String answer = printMsgAndGetInput(msg + "\n--> yes/no ? (y/n)");
         return answer.equals("yes") || answer.equals("y");
     }
@@ -127,5 +152,11 @@ public class Dialog {
 
         res.addAll(Arrays.stream(lines).collect(Collectors.toList()));
         return DeleteOptions.DISCRETELY;
+    }
+
+    public void printRows(String[] rows) {
+        for (String row: rows){
+            showFormatMessage(row, 2);
+        }
     }
 } // ... class Dialog

@@ -5,4 +5,6 @@ public enum Ordering {
     PRICE,
     TITLE,
     ID,
+
+    DEFAULT,
 }

@@ -1,6 +1,8 @@
 package data;
 
+import application.enums.OptionContainer;
 import application.enums.Ordering;
+import sun.awt.image.ImageWatched;
 import utils.IdGenerator;
 import data.abstracts.Thing;
 import data.things.Car;
@@ -122,7 +124,6 @@ public class Market{
     public void deleteByRange(List<Long> ids){
         for (long i: ids){
             things.remove(i);
-
         }
     }
 
@@ -228,6 +229,48 @@ public class Market{
 
     public String[] serializeToStrings(Ordering ord, boolean straightOrder) {
         List<Thing> list = new ArrayList<>(things.values());
+        Comparator<Thing> cmp = getCmp(ord);
+        if (!straightOrder)
+            cmp = cmp.reversed();
+        list.sort(cmp);
+
+        return list
+                .stream()
+                .map(Thing::getInfoAboutMe)
+                .toArray(String[]::new);
+    }
+
+    public String[] serializeWithOptions(OptionContainer c){
+        List<Thing> list = applyFilters(c);
+        Comparator<Thing> cmp = getCmp(c.getOrdering());
+        list.sort(cmp);
+        return list.stream().map(Thing::getInfoAboutMe).toArray(String[]::new);
+    }
+
+    private List<Thing> applyFilters(OptionContainer c) {
+        Stream<Thing> stream = things.values()
+                .stream()
+                .filter(thing -> thing.getPrice() > c.getMin());
+        if (c.getMax() > 0){
+            stream = stream.filter(thing -> thing.getPrice() < c.getMax());
+        }
+        switch (c.getType()){
+            case CAR:
+                stream = stream.filter(thing -> thing instanceof Car);
+                break;
+            case GUITAR:
+                stream = stream.filter(thing -> thing instanceof Guitar);
+                break;
+            case WATCH:
+                stream = stream.filter(thing -> thing instanceof Watch);
+                break;
+            case UNKNOWN:
+                break;
+        }
+        return stream.collect(Collectors.toList());
+    }
+
+    private Comparator<Thing> getCmp(Ordering ord){
         Comparator<Thing> cmp = new Comparator<Thing>() {
             @Override
             public int compare(Thing thing, Thing t1) {
@@ -251,14 +294,12 @@ public class Market{
                     }
                 };
                 break;
-        }
-        if (!straightOrder)
-            cmp = cmp.reversed();
-        list.sort(cmp);
 
-        return list
-                .stream()
-                .map(Thing::getInfoAboutMe)
-                .toArray(String[]::new);
+            // используем компоратор по id
+            case ID:
+            case DEFAULT:
+                break;
+        }
+        return cmp;
     }
 }

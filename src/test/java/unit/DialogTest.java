@@ -3,12 +3,14 @@ package unit;
 import application.Dialog;
 import application.enums.DeleteOptions;
 import application.enums.MenuItem;
+import application.enums.OptionContainer;
+import application.enums.Ordering;
+import data.KindOfItem;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class DialogTest {
@@ -64,5 +66,43 @@ public class DialogTest {
         Assert.assertEquals(7, arr.size());
         Assert.assertEquals(4, Integer.parseInt(arr.get(6)));
         Assert.assertEquals(2, Integer.parseInt(arr.get(5)));
+    }
+
+    @Test
+    public void userWantSetOrdering() {
+        OptionContainer opt = new OptionContainer(
+                "ftr:min_price=400 && ftr:max_price=600 && ftr:type=c");
+        Assert.assertEquals(opt.getMin(), 400, 0.001);
+        Assert.assertEquals(opt.getMax(), 600, 0.001);
+        Assert.assertEquals(opt.getOrdering(), Ordering.DEFAULT);
+        Assert.assertEquals(opt.getType(), KindOfItem.CAR);
+
+        opt = new OptionContainer(
+                "ftr:type=g && ftr:type=w && ftr:type=c");
+        Assert.assertTrue(opt.getMin() < 0);
+        Assert.assertTrue(opt.getMax() < 0);
+        Assert.assertEquals(opt.getOrdering(), Ordering.DEFAULT);
+        Assert.assertEquals(opt.getType(), KindOfItem.CAR);
+
+        opt = new OptionContainer(
+                "ord:i && ftr:type=w && ftr:type=c");
+        Assert.assertTrue(opt.getMin() < 0);
+        Assert.assertTrue(opt.getMax() < 0);
+        Assert.assertEquals(opt.getOrdering(), Ordering.ID);
+        Assert.assertEquals(opt.getType(), KindOfItem.CAR);
+
+        opt = new OptionContainer(
+                "ord:t && ftr:type=w && ftr:type=c");
+        Assert.assertTrue(opt.getMin() < 0);
+        Assert.assertTrue(opt.getMax() < 0);
+        Assert.assertEquals(opt.getOrdering(), Ordering.TITLE);
+        Assert.assertEquals(opt.getType(), KindOfItem.CAR);
+
+        opt = new OptionContainer(
+                "ord:g && ftr:type=w && ord:p");
+        Assert.assertTrue(opt.getMin() < 0);
+        Assert.assertTrue(opt.getMax() < 0);
+        Assert.assertEquals(opt.getOrdering(), Ordering.PRICE);
+        Assert.assertEquals(opt.getType(), KindOfItem.WATCH);
     }
 }

@@ -2,6 +2,8 @@ package application;
 
 import application.enums.DeleteOptions;
 import application.enums.MenuItem;
+import application.enums.OptionContainer;
+import application.enums.Ordering;
 import data.KindOfItem;
 import data.Market;
 import data.Resources;
@@ -26,9 +28,9 @@ public class Application {
         do {
             dialog.printMenu();
             menu_item = dialog.getUserAction(dialog.printMsgAndGetInput());
-            switch (menu_item){
+            switch (menu_item) {
                 case PRINT:
-                    Print();
+                    specificPrint();
                     break;
                 case DELETE:
                     Delete();
@@ -60,6 +62,13 @@ public class Application {
             }
         } while (menu_item != MenuItem.EXIT);
         dialog.showFormatMessage("Thx, bye! App ", 1);
+    }
+
+    private void specificPrint() {
+        String options = dialog.printMsgAndGetInput(Resources.infoAboutOptions);
+        OptionContainer c = new OptionContainer(options);
+        String[] list = market.serializeWithOptions(c);
+        dialog.printRows(list);
     }
 
     private void PrintAboutErrorInput() {
@@ -140,10 +149,7 @@ public class Application {
     }
 
     private void Print(){
-        String[] rows = market.serializeToStrings();
-        for (String row: rows){
-            dialog.showFormatMessage(row, 2);
-        }
+        dialog.printRows(market.serializeToStrings());
     }
 
     private void Delete(){

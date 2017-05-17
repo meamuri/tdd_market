@@ -19,14 +19,14 @@ public class Resources {
         }
     }
 
-    public static String infoAboutDeleting = "Какие товары требуется удалить?\n" +
+    final public static String infoAboutDeleting = "Какие товары требуется удалить?\n" +
             "Введите id в следующем формате:\n"+
             "Число\t\t чтобы удалить единственный эл-т (н-р: 15).\n" +
             "Диапазон\t\t чтобы удалить по диапазону id (н-р: 15-34).\n"+
             "Перечисление\t\t чтобы удалить выборочные id (н-р: 13, 15, 44).\n";
 
 
-    public static String inviteForInputObjectKind =
+    final public static String inviteForInputObjectKind =
             "\nВведите, товар какого типа вы хотите создать:\n" +
             "1. Автомобиль\n" +
             "2. Часы\n" +
@@ -50,4 +50,14 @@ public class Resources {
         }
         return "";
     }
+
+    final public static String infoAboutOptions = "Введите список опций в формате:\n" +
+            "opt1:param && opt2:param=val && opt3:param\n" +
+            "Сейчас доступны следующие опции и из параметры:\n" +
+            "ord (сортировка) : i (по id), t (по названию), p (по цене)\n" +
+            "ftr (фильтрация) : \n" +
+                    "\ttype = [c (только машины) | w (только часы) | g (только гитары)]\n" +
+                    "\tmin_price = минимальная цена\n" +
+                    "\tmax_price = максимальная цена\n" +
+            "Пустая строка -- без опций";
 }
