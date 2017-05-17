@@ -4,7 +4,7 @@ public enum MenuItem{
     EXIT,
 
     PRINT,
-    BUY,
+    DELETE,
     ADD,
     LOAD_FROM_TEXT_FILE,
     LOAD_FROM_DATABASE,

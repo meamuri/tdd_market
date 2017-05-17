@@ -7,6 +7,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+
 public class MarketTest {
     private Market market;
 
@@ -82,7 +85,7 @@ public class MarketTest {
         Assert.assertNotNull(market.getItemById(4));
         Assert.assertEquals(6, market.count());
 
-        market.deleteByRange(new long[]{2, 4, 6});
+        market.deleteByRange(Arrays.asList(2L, 4L, 6L));
 
         Assert.assertNull(market.getItemById(2));
         Assert.assertNotNull(market.getItemById(3));

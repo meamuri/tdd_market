@@ -116,9 +116,14 @@ public class Market{
         }
     }
 
-    public void deleteByRange(long[] ids){
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void deleteByRange(List<Long> ids){
         for (long i: ids){
             things.remove(i);
+
         }
     }
 

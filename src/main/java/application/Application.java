@@ -1,10 +1,16 @@
 package application;
 
+import application.enums.DeleteOptions;
 import application.enums.MenuItem;
 import data.KindOfItem;
 import data.Market;
 import data.Resources;
 import utils.ConvertorsAndChecks;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Application {
     private Dialog dialog;
@@ -24,8 +30,8 @@ public class Application {
                 case PRINT:
                     Print();
                     break;
-                case BUY:
-                    Buy();
+                case DELETE:
+                    Delete();
                     break;
                 case ADD:
                     Add();
@@ -64,7 +70,7 @@ public class Application {
     }
 
     private void SaveToTextFile() {
-        String name = dialog.printMsgAndGetInput(Resources.inviteForInputFileName);
+        String name = dialog.printMsgAndGetInput(Resources.inviteForInputFileName(market.getFileName()));
         if (market.saveToFile(name)){
             dialog.printMsg("Сохранение прошло успешно");
         }
@@ -140,24 +146,43 @@ public class Application {
         }
     }
 
-    private void Buy(){
+    private void Delete(){
         Print();
-        String input = dialog.printMsgAndGetInput("Введите id товара, который желаете приобрести:");
-        if (!ConvertorsAndChecks.isNaturalDigitString(input)) {
-            dialog.printMsg("Введенная строка не является натуральным числом!");
-            return;
-        }
+        String input = dialog.printMsgAndGetInput(Resources.infoAboutDeleting);
+        List<String> list = new ArrayList<>();
+        DeleteOptions opts = dialog.deleteCheckOptions(input, list);
 
-        Long id = Long.parseLong(input);
-        if (!market.containItemWithID(id)){
-            dialog.printMsg("Товар не найден в списке доступных");
-            return;
-        }
+        switch (opts) {
+            case UNDEFINED:
+                dialog.printMsg("Введенная строка не попадает под шаблон ввода!");
+                return;
+            case SINGLE:
+                if (market.deleteItemById(Long.parseLong(input))){
+                    dialog.printMsg("Удаление прошло успешно!");
+                    if (dialog.isYesAnswer("Напечатать получившийся список?")){
+                        Print();
+                    }
+                } else {
+                    dialog.printMsg("Не удалось удалить элемент, убедитесь в корректности id");
+                }
+                return;
 
-        if (market.deleteItemById(id) &&
-                dialog.isYesAnswer("Товар успешно удален из списка товаров. Напечатать новый список?")) {
+            // После этих кейсов не происходит выход из программы
+            case RANGE:
+                Long begin = Long.parseLong(list.get(0));
+                Long end = Long.parseLong(list.get(1));
+                market.deleteByRange(begin, end);
+                break;
+            case DISCRETELY:
+                LinkedList<Long> ids = list.stream()
+                        .map(Long::parseLong)
+                        .collect(Collectors.toCollection(LinkedList::new));
+                market.deleteByRange(ids);
+                break;
+        }
+        if (dialog.isYesAnswer("Товары, удовлетворяющие заданным критериям, удалены\n" +
+                "Распечатать результирующий список?"))
             Print();
-        }
     }
 
     private void Edit() {

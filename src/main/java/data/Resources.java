@@ -19,15 +19,24 @@ public class Resources {
         }
     }
 
+    public static String infoAboutDeleting = "Какие товары требуется удалить?\n" +
+            "Введите id в следующем формате:\n"+
+            "Число\t\t чтобы удалить единственный эл-т (н-р: 15).\n" +
+            "Диапазон\t\t чтобы удалить по диапазону id (н-р: 15-34).\n"+
+            "Перечисление\t\t чтобы удалить выборочные id (н-р: 13, 15, 44).\n";
+
+
     public static String inviteForInputObjectKind =
             "\nВведите, товар какого типа вы хотите создать:\n" +
             "1. Автомобиль\n" +
             "2. Часы\n" +
             "3. Гитара\n";
 
-    public static String inviteForInputFileName =
-            "Введите имя файла, в который нужно сохранить\n" +
-            "Введите точку чтобы использовать прежнее имя";
+    public static String inviteForInputFileName(String fileName) {
+        return "Введите имя файла, в который нужно сохранить\n" +
+                "Введите точку чтобы использовать прежнее имя\n"+
+                "Прежнее имя файла: " + fileName;
+    }
 
     public static String inviteForInputSpecialInfo(KindOfItem k) {
         String res = "Введите ";

@@ -5,7 +5,6 @@ import application.enums.MenuItem;
 import exceptions.UserInputException;
 import utils.ConvertorsAndChecks;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -15,7 +14,7 @@ public class Dialog {
     void printMenu() {
         System.out.println("\t* VsuJavaShop *\t");
         System.out.println("1\t Print Products");
-        System.out.println("2\t Buy Product");
+        System.out.println("2\t Delete Product (buy)");
         System.out.println("3\t Add Product");
         System.out.println("4\t Load info from text-file");
         System.out.println("5\t Load info from database");
@@ -34,7 +33,7 @@ public class Dialog {
     String printMsgAndGetInput(String msg){
         System.out.println(msg);
         Scanner reader = new Scanner(System.in);
-        return reader.next();
+        return reader.nextLine();
     }
 
     void printMsg(String msg){
@@ -62,7 +61,7 @@ public class Dialog {
                 case 1:
                     return MenuItem.PRINT;
                 case 2:
-                    return MenuItem.BUY;
+                    return MenuItem.DELETE;
                 case 3:
                     return MenuItem.ADD;
                 case 4:
