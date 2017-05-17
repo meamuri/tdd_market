@@ -1,5 +1,6 @@
 package unit;
 
+import application.enums.Ordering;
 import data.KindOfItem;
 import data.Market;
 import data.abstracts.Thing;
@@ -112,6 +113,30 @@ public class MarketTest {
         Assert.assertNull(market.getItemById(5));
         Assert.assertNotNull(market.getItemById(6));
         Assert.assertEquals(2, market.count());
+    }
+
+    @Test
+    public void sortingTest(){
+        String[] arr = market.serializeToStrings(Ordering.PRICE, true);
+        Assert.assertEquals('5',arr[0].charAt(0));
+        Assert.assertEquals('2',arr[5].charAt(0));
+        arr = market.serializeToStrings(Ordering.PRICE, false);
+        Assert.assertEquals('2',arr[0].charAt(0));
+        Assert.assertEquals('5',arr[5].charAt(0));
+
+        arr = market.serializeToStrings(Ordering.ID, true);
+        Assert.assertEquals('1',arr[0].charAt(0));
+        Assert.assertEquals('6',arr[5].charAt(0));
+        arr = market.serializeToStrings(Ordering.ID, false);
+        Assert.assertEquals('6',arr[0].charAt(0));
+        Assert.assertEquals('1',arr[5].charAt(0));
+
+        arr = market.serializeToStrings(Ordering.TITLE, true);
+        Assert.assertEquals('4',arr[0].charAt(0));
+        Assert.assertEquals('2',arr[5].charAt(0));
+        arr = market.serializeToStrings(Ordering.TITLE, false);
+        Assert.assertEquals('2',arr[0].charAt(0));
+        Assert.assertEquals('4',arr[5].charAt(0));
     }
 
 }

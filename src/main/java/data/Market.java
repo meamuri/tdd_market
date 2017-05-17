@@ -1,5 +1,6 @@
 package data;
 
+import application.enums.Ordering;
 import utils.IdGenerator;
 import data.abstracts.Thing;
 import data.things.Car;
@@ -13,9 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -227,4 +226,39 @@ public class Market{
         return true;
     }
 
+    public String[] serializeToStrings(Ordering ord, boolean straightOrder) {
+        List<Thing> list = new ArrayList<>(things.values());
+        Comparator<Thing> cmp = new Comparator<Thing>() {
+            @Override
+            public int compare(Thing thing, Thing t1) {
+                return Long.compare(thing.getId(), t1.getId());
+            }
+        };
+        switch (ord){
+            case PRICE:
+                cmp = new Comparator<Thing>() {
+                    @Override
+                    public int compare(Thing thing, Thing t1) {
+                        return Double.compare(thing.getPrice(), t1.getPrice());
+                    }
+                };
+                break;
+            case TITLE:
+                cmp = new Comparator<Thing>() {
+                    @Override
+                    public int compare(Thing thing, Thing t1) {
+                        return thing.getTitle().compareTo(t1.getTitle());
+                    }
+                };
+                break;
+        }
+        if (!straightOrder)
+            cmp = cmp.reversed();
+        list.sort(cmp);
+
+        return list
+                .stream()
+                .map(Thing::getInfoAboutMe)
+                .toArray(String[]::new);
+    }
 }
