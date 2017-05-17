@@ -1,9 +1,15 @@
 package application;
 
+import application.enums.DeleteOptions;
+import application.enums.MenuItem;
 import exceptions.UserInputException;
 import utils.ConvertorsAndChecks;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Dialog {
     void printMenu() {
@@ -85,4 +91,42 @@ public class Dialog {
         return answer.equals("yes") || answer.equals("y");
     }
 
+    public DeleteOptions deleteCheckOptions(String s, List<String> res) {
+        res.clear();
+        if (ConvertorsAndChecks.isNaturalDigitString(s)) {
+            res.add(s);
+            return DeleteOptions.SINGLE;
+        }
+
+        if (s.contains("-")) {
+            String[] lines = s.split("-");
+            for (int i = 0; i < lines.length; ++i){
+                lines[i] = lines[i].trim();
+            }
+            if (lines.length == 2 &&
+                    ConvertorsAndChecks.isNaturalDigitString(lines[0]) &&
+                    ConvertorsAndChecks.isNaturalDigitString(lines[1])) {
+                res.add(lines[0]);
+                res.add(lines[1]);
+                return DeleteOptions.RANGE;
+            }
+
+            return DeleteOptions.UNDEFINED;
+        }
+
+        DeleteOptions answer = DeleteOptions.UNDEFINED;
+        if (!s.contains(",")){
+            return answer;
+        }
+
+        String[] lines = s.split(",");
+        for (int i = 0; i < lines.length; ++i){
+            lines[i] = lines[i].trim();
+            if (!ConvertorsAndChecks.isNaturalDigitString(lines[i]))
+                return answer;
+        }
+
+        res.addAll(Arrays.stream(lines).collect(Collectors.toList()));
+        return DeleteOptions.DISCRETELY;
+    }
 } // ... class Dialog

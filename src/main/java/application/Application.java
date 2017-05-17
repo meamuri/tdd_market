@@ -1,5 +1,6 @@
 package application;
 
+import application.enums.MenuItem;
 import data.KindOfItem;
 import data.Market;
 import data.Resources;

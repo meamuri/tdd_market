@@ -90,4 +90,25 @@ public class MarketTest {
         Assert.assertEquals(3, market.count());
     }
 
+    @Test
+    public void deleteByRange(){
+        Assert.assertNotNull(market.getItemById(1));
+        Assert.assertNotNull(market.getItemById(2));
+        Assert.assertNotNull(market.getItemById(3));
+        Assert.assertNotNull(market.getItemById(4));
+        Assert.assertNotNull(market.getItemById(5));
+        Assert.assertNotNull(market.getItemById(6));
+        Assert.assertEquals(6, market.count());
+
+        market.deleteByRange(2, 5);
+
+        Assert.assertNotNull(market.getItemById(1));
+        Assert.assertNull(market.getItemById(2));
+        Assert.assertNull(market.getItemById(3));
+        Assert.assertNull(market.getItemById(4));
+        Assert.assertNull(market.getItemById(5));
+        Assert.assertNotNull(market.getItemById(6));
+        Assert.assertEquals(2, market.count());
+    }
+
 }

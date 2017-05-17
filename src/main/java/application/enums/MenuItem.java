@@ -1,4 +1,4 @@
-package application;
+package application.enums;
 
 public enum MenuItem{
     EXIT,
