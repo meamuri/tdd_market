@@ -110,6 +110,17 @@ public class Market{
         return things.get(i);
     }
 
+    public void deleteByRange(long beginId, long endId){
+        for (long i = beginId; i <= endId; ++i){
+            things.remove(i);
+        }
+    }
+
+    public void deleteByRange(long[] ids){
+        for (long i: ids){
+            things.remove(i);
+        }
+    }
 
     public boolean deleteItemById(long id) {
         // если множество сейчас не содержит такой элемент, возвращаем false -- не удалось удалить
@@ -179,6 +190,9 @@ public class Market{
                     if (params.length != 5)
                         return false;
                     Thing th = Factory.ThingByRawString(params);
+                    if (th == null){
+                        return false;
+                    }
                     res.put(th.getId(), th);
                 }
                 this.things = res;

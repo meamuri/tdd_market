@@ -66,4 +66,28 @@ public class MarketTest {
         Assert.assertEquals(th.getSpecific(), 612);
     }
 
+    @Test
+    public void deleteByRangeFromTo(){
+        Assert.assertNotNull(market.getItemById(2));
+        Assert.assertEquals(6, market.count());
+        market.deleteByRange(1, 4);
+        Assert.assertNull(market.getItemById(2));
+        Assert.assertEquals(2, market.count());
+    }
+
+    @Test
+    public void deleteByArrayOfIds(){
+        Assert.assertNotNull(market.getItemById(2));
+        Assert.assertNotNull(market.getItemById(3));
+        Assert.assertNotNull(market.getItemById(4));
+        Assert.assertEquals(6, market.count());
+
+        market.deleteByRange(new long[]{2, 4, 6});
+
+        Assert.assertNull(market.getItemById(2));
+        Assert.assertNotNull(market.getItemById(3));
+        Assert.assertNull(market.getItemById(4));
+        Assert.assertEquals(3, market.count());
+    }
+
 }
