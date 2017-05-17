@@ -80,6 +80,9 @@ public class Market{
     public boolean addItemToMarket(String title, double price, int param, KindOfItem kind) {
         Thing th = null;
         long id = generator.getNextId();
+        while (things.containsKey(id)){
+            id = generator.getNextId();
+        }
         switch (kind){
             case CAR:
                 th = new Car(id, title, price, param);
