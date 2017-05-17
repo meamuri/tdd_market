@@ -18,4 +18,14 @@ public class Guitar extends Thing{
         return stringCount;
     }
 
+    @Override
+    public int getSpecific() {
+        return stringCount;
+    }
+
+    @Override
+    public void editMe(String title, double price, int spec) {
+        super.editMe(title, price);
+        stringCount = spec;
+    }
 }

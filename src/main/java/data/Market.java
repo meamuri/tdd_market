@@ -101,6 +101,8 @@ public class Market{
         return true;
     }
 
+    public boolean containItemWithID(Long id) { return things.containsKey(id); }
+
     public Thing getItemById(long i) {
         if (!things.containsKey(i))
             return null;
@@ -192,8 +194,18 @@ public class Market{
         if (!things.containsKey(id)){
             return false;
         }
-
-        things.get(id).editMe(title, price);
+        Thing th = things.get(id);
+        th.editMe(title, price);
         return true;
     }
+
+    public boolean editById(long id, String title, double price, int spec) {
+        if (!things.containsKey(id)){
+            return false;
+        }
+
+        things.get(id).editMe(title, price, spec);
+        return true;
+    }
+
 }

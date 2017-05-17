@@ -15,6 +15,7 @@ public class Dialog {
         System.out.println("5\t Load info from database");
         System.out.println("6\t Save info to file");
         System.out.println("7\t Save info to database");
+        System.out.println("8\t Edit item");
         System.out.println("0\t Exit");
     }
 
@@ -66,6 +67,8 @@ public class Dialog {
                     return MenuItem.SAVE_TO_TEXT_FILE;
                 case 7:
                     return MenuItem.SAVE_TO_DATABASE;
+                case 8:
+                    return MenuItem.EDIT;
                 case 0:
                     return MenuItem.EXIT;
                 default:

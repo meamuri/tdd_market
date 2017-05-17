@@ -18,5 +18,14 @@ public class Car extends Thing{
         this.horsePower = horsePower;
     }
 
+    @Override
+    public int getSpecific() {
+        return horsePower;
+    }
 
+    @Override
+    public void editMe(String title, double price, int spec) {
+        super.editMe(title, price);
+        horsePower = spec;
+    }
 }

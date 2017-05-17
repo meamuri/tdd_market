@@ -18,4 +18,14 @@ public class Watch extends Thing {
         return clockFaceCount;
     }
 
+    @Override
+    public int getSpecific() {
+        return clockFaceCount;
+    }
+
+    @Override
+    public void editMe(String title, double price, int spec) {
+        super.editMe(title, price);
+        clockFaceCount = spec;
+    }
 }

@@ -30,4 +30,8 @@ public abstract class Thing implements Item {
         this.title = title;
         this.price = price;
     }
+
+    public abstract void editMe(String title, double price, int spec);
+
+    public abstract int getSpecific();
 }

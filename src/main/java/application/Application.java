@@ -41,6 +41,9 @@ public class Application {
                 case SAVE_TO_DATABASE:
                     SaveToDataBase();
                     break;
+                case EDIT:
+                    Edit();
+                    break;
                 case NOT_IN_RANGE:
                 case ERROR_INPUT:
                     PrintAboutErrorInput();
@@ -108,7 +111,7 @@ public class Application {
         }
         Double p = Double.parseDouble(price);
         if (p < 0) {
-            dialog.printMsg("Цена товара не может быть отризцательной!");
+            dialog.printMsg("Цена товара не может быть отрицательной!");
             return;
         }
 
@@ -145,6 +148,39 @@ public class Application {
         else {
             dialog.printMsg("Товар не найден в списке доступных");
         }
+    }
+
+    private void Edit() {
+        Print();
+        String input = dialog.printMsgAndGetInput("Введите id товара, который желаете отредактировать:");
+        if (!ConvertorsAndChecks.isNaturalDigitString(input)) {
+            dialog.printMsg("Введенная строка не является натуральным числом!");
+            return;
+        }
+        Long id = Long.parseLong(input);
+        if (!market.containItemWithID(id)){
+            dialog.printMsg("Товара с таким айди не существует!");
+            return;
+        }
+        String title = dialog.printMsgAndGetInput("Введите новое название товара");
+        String price = dialog.printMsgAndGetInput("Введите новую цену товара");
+        if (!ConvertorsAndChecks.isDoubleDigit(price)){
+            dialog.printMsg("Цена товара введена некорректно!");
+            return;
+        }
+        Double p = Double.parseDouble(price);
+        if (p < 0) {
+            dialog.printMsg("Цена товара не может быть отрицательной!");
+            return;
+        }
+
+        if (market.editById(id, title, p)){
+            dialog.printMsg("Редактирование прошло успешно!");
+        }
+        else {
+            dialog.printMsg("Не удалось изменить выбранный товар!");
+        }
+
     }
 
 

@@ -57,4 +57,13 @@ public class MarketTest {
         Assert.assertTrue(th.getTitle().equals("RollsRoyce Ghost"));
     }
 
+    @Test
+    public void userWantMoreSpecificEditing() {
+        Thing th = market.getItemById(1);
+        Assert.assertTrue(th.getTitle().equals("Bentley"));
+        market.editById(1L, "Bentley Flying Spur", 600000.4, 612);
+        th = market.getItemById(1);
+        Assert.assertEquals(th.getSpecific(), 612);
+    }
+
 }
