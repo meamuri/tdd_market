@@ -81,11 +81,14 @@ public class Application {
                 market.count() > 0 &&
                         dialog.printMsgAndGetInput("вы уверены что хотите перезаписать данные?(y/n)")
                                 .equals("y")) {
-            if (market.loadFromFile()) {
-                dialog.printMsg("Данные перезаписаны");
+            if (!market.loadFromFile()) {
+                dialog.printMsg("Не удалось загрузить данные из файла");
             }
             else {
-                dialog.printMsg("Не удалось загрузить данные из файла");
+                dialog.printMsg("Данные перезаписаны");
+                if (dialog.isYesAnswer("Хотите отобразить результат?")){
+                    Print();
+                }
             }
         }
     }
@@ -123,7 +126,10 @@ public class Application {
 
 
         Integer inf = Integer.parseInt(info);
-        market.addItemToMarket(title, p, inf, kind);
+        if (market.addItemToMarket(title, p, inf, kind) &&
+                dialog.isYesAnswer("Товар добавлен. Показать обновленный список?")){
+                Print();
+        }
     }
 
     private void Print(){
@@ -141,12 +147,15 @@ public class Application {
             return;
         }
 
-        int inf = Integer.parseInt(input);
-        if (market.deleteItemById(inf)) {
-            dialog.printMsg("Товар успешно приобретен и удален из списка товаров");
-        }
-        else {
+        Long id = Long.parseLong(input);
+        if (!market.containItemWithID(id)){
             dialog.printMsg("Товар не найден в списке доступных");
+            return;
+        }
+
+        if (market.deleteItemById(id) &&
+                dialog.isYesAnswer("Товар успешно удален из списка товаров. Напечатать новый список?")) {
+            Print();
         }
     }
 
@@ -174,11 +183,14 @@ public class Application {
             return;
         }
 
-        if (market.editById(id, title, p)){
-            dialog.printMsg("Редактирование прошло успешно!");
+        if (!market.editById(id, title, p)){
+            dialog.printMsg("Не удалось изменить выбранный товар!");
         }
         else {
-            dialog.printMsg("Не удалось изменить выбранный товар!");
+            dialog.printMsg("Редактирование прошло успешно!");
+            if (dialog.isYesAnswer("Хотите ли посмотреть измененный список")){
+                Print();
+            }
         }
 
     }

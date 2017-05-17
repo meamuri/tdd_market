@@ -80,5 +80,9 @@ public class Dialog {
         }
     } // ... func getUserAction()
 
+    public boolean isYesAnswer(String msg){
+        String answer = printMsgAndGetInput(msg + "\n--> yes/no ? (y/n)");
+        return answer.equals("yes") || answer.equals("y");
+    }
 
 } // ... class Dialog
