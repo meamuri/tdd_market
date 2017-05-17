@@ -187,4 +187,13 @@ public class Market{
         }
         return true;
     }
+
+    public boolean editById(long id, String title, double price) {
+        if (!things.containsKey(id)){
+            return false;
+        }
+
+        things.get(id).editMe(title, price);
+        return true;
+    }
 }

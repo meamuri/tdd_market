@@ -48,4 +48,13 @@ public class MarketTest {
         Assert.assertTrue(market.deleteItemById(6));
     }
 
+    @Test
+    public void userWantEditItem() {
+        Thing th = market.getItemById(2);
+        Assert.assertTrue(th.getTitle().equals("RollsRoyce"));
+        market.editById(2L, "RollsRoyce Ghost", 400000.4);
+        th = market.getItemById(2);
+        Assert.assertTrue(th.getTitle().equals("RollsRoyce Ghost"));
+    }
+
 }
