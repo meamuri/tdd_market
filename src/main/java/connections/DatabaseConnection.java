@@ -14,10 +14,10 @@ import java.util.List;
 public class DatabaseConnection {
     private static final String DB_URL = "jdbc:h2:tcp://localhost/~/test";
 
-    static final String Product = "VSU_LAB.Product";
-    static final String Cars = "VSU_LAB.Cars";
-    static final String Guitars = "VSU_LAB.Guitars";
-    static final String Watches = "VSU_LAB.Watches";
+    private static final String Product = "VSU_LAB.Product";
+    private static final String Cars = "VSU_LAB.Cars";
+    private static final String Guitars = "VSU_LAB.Guitars";
+    private static final String Watches = "VSU_LAB.Watches";
 
     //region Queries
     private static final String insertProduct   =
@@ -33,13 +33,18 @@ public class DatabaseConnection {
 
     private static final String getAllGuitars     =
             "SELECT * " +
-            "FROM VSU_LAB.Product JOIN VSU_LAB.GUITARS ON VSU_LAB.Product.id = VSU_LAB.Guitars.guitar_id";
+            "FROM " + Product +" JOIN " + Guitars +
+            " ON " + Product + ".id = VSU_LAB.Guitars.guitar_id";
+
     private static final String getAllCars   =
             "SELECT * " +
-            "FROM VSU_LAB.Product JOIN VSU_LAB.CARS ON VSU_LAB.Product.id = VSU_LAB.Cars.car_id";
+            "FROM " + Product + " JOIN " + Cars +
+            " ON " + Product + ".id = VSU_LAB.Cars.car_id";
+
     private static final String getAllWatches      =
             "SELECT * " +
-            "FROM VSU_LAB.Product JOIN VSU_LAB.WATCHES ON VSU_LAB.Product.id = VSU_LAB.Watches.watch_id";
+            "FROM " + Product +" JOIN " + Watches +
+            " ON " + Product + ".id = VSU_LAB.Watches.watch_id";
     //endregion
 
     // Connect with database
