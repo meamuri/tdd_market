@@ -1,5 +1,6 @@
 package data.things;
 
+import data.KindOfItem;
 import data.abstracts.Thing;
 
 public class Guitar extends Thing{
@@ -27,5 +28,10 @@ public class Guitar extends Thing{
     public void editMe(String title, double price, int spec) {
         super.editMe(title, price);
         stringCount = spec;
+    }
+
+    @Override
+    public KindOfItem getMyKind() {
+        return KindOfItem.GUITAR;
     }
 }

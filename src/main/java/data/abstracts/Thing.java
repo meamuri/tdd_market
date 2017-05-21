@@ -1,5 +1,7 @@
 package data.abstracts;
 
+import data.KindOfItem;
+
 public abstract class Thing implements Item {
     private long id;
     private String title;
@@ -8,6 +10,11 @@ public abstract class Thing implements Item {
         this.id = id;
         this.title = title;
         this.price = price;
+    }
+
+    @Override
+    public KindOfItem getMyKind() {
+        return KindOfItem.UNKNOWN;
     }
 
     public long getId() {
