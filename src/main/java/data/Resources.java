@@ -60,4 +60,8 @@ public class Resources {
                     "\tmin_price = минимальная цена\n" +
                     "\tmax_price = максимальная цена\n" +
             "Пустая строка -- без опций";
+
+    final public static String errorAboutDatabaseLoad =
+            "Ошибка загрузки из базы данных!\n" +
+            "Возможно, она содержит некорректные данные.\n";
 }

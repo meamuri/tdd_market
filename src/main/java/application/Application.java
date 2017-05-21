@@ -4,11 +4,13 @@ import application.enums.DeleteOptions;
 import application.enums.MenuItem;
 import application.enums.OptionContainer;
 import application.enums.Ordering;
+import connections.DatabaseConnection;
 import data.KindOfItem;
 import data.Market;
 import data.Resources;
 import utils.ConvertorsAndChecks;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -76,6 +78,12 @@ public class Application {
     }
 
     private void SaveToDataBase() {
+        if (market.saveToDataBase(new DatabaseConnection())){
+            dialog.printMsg("Сохранение прошло успешно");
+        }
+        else {
+            dialog.printMsg("Сохранение завершилось неудачно");
+        }
     }
 
     private void SaveToTextFile() {
@@ -89,7 +97,16 @@ public class Application {
     }
 
     private void LoadFromDataBase() {
-
+        try {
+            if (!DatabaseConnection.loadFromDatabase(market)){
+                dialog.printMsg(Resources.errorAboutDatabaseLoad);
+            }
+            else if (dialog.isYesAnswer("Загрузка прошла успешно. Отобразить новый список?")){
+                Print();
+            }
+        } catch (SQLException|ClassNotFoundException e) {
+            dialog.printMsg("ой, ой, что-то пошло не так!");
+        }
     }
 
     private void LoadFromTextFile() {

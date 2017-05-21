@@ -12,33 +12,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseConnection {
-    private static final String DB_URL =
-            "jdbc:h2:tcp://localhost/~/test";
+    private static final String DB_URL = "jdbc:h2:tcp://localhost/~/test";
+
+    static final String Product = "VSU_LAB.Product";
+    static final String Cars = "VSU_LAB.Cars";
+    static final String Guitars = "VSU_LAB.Guitars";
+    static final String Watches = "VSU_LAB.Watches";
 
     //region Queries
     private static final String insertProduct   =
-            "INSERT INTO Product(id, title, price) VALUES(?,?,?)";
+            "INSERT INTO " + Product + "(id, title, price) VALUES(?,?,?)";
     private static final String insertCar      =
-            "INSERT INTO Cars(car_id, hp) VALUES(?,?)";
+            "INSERT INTO " + Cars + "(car_id, hp) VALUES(?,?)";
     private static final String insertGuitar   =
-            "INSERT INTO Guitars(guitar_id, strings) VALUES(?,?)";
+            "INSERT INTO " + Guitars + "(guitar_id, strings) VALUES(?,?)";
     private static final String insertWatch      =
-            "INSERT INTO Watches(watch_id, clocks) VALUES(?,?)";
+            "INSERT INTO " + Watches + "(watch_id, clocks) VALUES(?,?)";
     private static final String clearTable      =
-            "DELETE FROM Product";
+            "DELETE FROM VSU_LAB.Product";
 
     private static final String getAllGuitars     =
             "SELECT * " +
-            "FROM Product JOIN Books ON Product.id = Guitars.guitar_id";
+            "FROM VSU_LAB.Product JOIN VSU_LAB.GUITARS ON VSU_LAB.Product.id = VSU_LAB.Guitars.guitar_id";
     private static final String getAllCars   =
-            "SELECT * FROM Product JOIN Clothes ON Product.id = Cars.car_id";
+            "SELECT * " +
+            "FROM VSU_LAB.Product JOIN VSU_LAB.CARS ON VSU_LAB.Product.id = VSU_LAB.Cars.car_id";
     private static final String getAllWatches      =
-            "SELECT * FROM Product JOIN Food ON Product.id = Watches.watch_id";
+            "SELECT * " +
+            "FROM VSU_LAB.Product JOIN VSU_LAB.WATCHES ON VSU_LAB.Product.id = VSU_LAB.Watches.watch_id";
     //endregion
 
     // Connect with database
     private static Connection getConnection() throws SQLException, ClassNotFoundException {
-        return DriverManager.getConnection(DB_URL);
+        return DriverManager.getConnection(DB_URL, "sa", "");
     }
 
     // Execute simple query without result set
