@@ -13,7 +13,7 @@ import java.util.List;
 
 public class DatabaseConnection {
     private static final String DB_URL =
-            "jdbc:h2:" + System.getProperty("user.dir") + "/src/database/DbProducts";
+            "jdbc:h2:tcp://localhost/~/test";
 
     //region Queries
     private static final String insertProduct   =
@@ -144,18 +144,15 @@ public class DatabaseConnection {
 
     //endregion
 
-    public static Market loadFromDatabase() throws SQLException, ClassNotFoundException {
-        Market products = new Market();
-        getAll().forEach((p) -> {
-            products.addItemToMarket(p.getTitle(), p.getPrice(), p.getSpecific(), p.getMyKind());
-        });
-        return products;
+    public static boolean loadFromDatabase(Market market) throws SQLException, ClassNotFoundException {
+        return market.reloadMarketByForeignList(getAll());
     }
 
     // Save info to database
-    public static void saveToDatabase(Market products) throws SQLException, ClassNotFoundException {
-
+    public void saveToDatabase(List<Thing> list) throws SQLException, ClassNotFoundException {
+        clearTable();
+        for (Thing t: list) {
+            insert(t);
+        }
     }
-
-
 }

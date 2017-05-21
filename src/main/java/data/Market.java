@@ -2,6 +2,7 @@ package data;
 
 import application.enums.OptionContainer;
 import application.enums.Ordering;
+import connections.DatabaseConnection;
 import sun.awt.image.ImageWatched;
 import utils.IdGenerator;
 import data.abstracts.Thing;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -28,14 +30,6 @@ public class Market{
     private IdGenerator generator;              // объект, присваивающий товарам новый id
     private String fileName;
     private String outDirPrefix = "io/";
-
-    /**
-     * функция добавляет уже сформированный товар в коллекцию
-     * @param th новый товар коллекции
-     */
-    private void addInternalItem(Thing th) {
-        things.put(th.getId(), th);
-    }
 
     /* Свойства */
 
@@ -59,9 +53,9 @@ public class Market{
      * @param thing товар, возможно с неуникальным для хранимой коллекции id
      * @return результат добавление: True, если удалось добавить
      */
-    private boolean add(Thing thing) {
+    public boolean add(Thing thing) {
         long idOfThing = thing.getId();
-        if (things.containsKey(idOfThing))
+        if (things.containsKey(idOfThing) || thing.getMyKind() == KindOfItem.UNKNOWN)
             return false;
 
         things.put(idOfThing, thing);
@@ -98,7 +92,7 @@ public class Market{
             case UNKNOWN:
                 return false;
         }
-        addInternalItem(th);
+        things.put(th.getId(), th);
         return true;
     }
 
@@ -148,11 +142,22 @@ public class Market{
         return res.toArray(new String[res.size()]);
     }
 
+    public boolean saveToDataBase(DatabaseConnection db_conn){
+        try {
+            db_conn.saveToDatabase(new ArrayList<>(things.values()));
+        } catch (SQLException|ClassNotFoundException e) {
+            return false;
+        }
+        return true;
+    }
+
     public boolean saveToFile() {
         Path path = Paths.get(outDirPrefix + fileName);
         try {
             try (BufferedWriter writer = Files.newBufferedWriter(path)) {
-                String str = serializeToList().stream().collect(Collectors.joining("\n"));
+                String str = serializeToList()
+                        .stream()
+                        .collect(Collectors.joining("\n"));
                 writer.write(str);
             }
         }
@@ -206,6 +211,28 @@ public class Market{
         catch (IOException e) {
             return false;
         }
+        return true;
+    }
+
+    /**
+     * Заполнение нашей структуры новыми значениями из переданного списка.
+     * Осуществляет проверку, не содержит ли переданный список
+     * повторений id или неизвестных типов
+     * @param list список товаров, которыми нужно заменить текущие
+     * @return
+     *  true: нет повторяющихся id и все товары имеют известный тип
+     *  false: есть повторяющиеся id или товары неизвестного типа
+     */
+    public boolean reloadMarketByForeignList(List<Thing> list) {
+        TreeMap<Long, Thing> tmp = new TreeMap<>();
+        for (Thing th : list) {
+            long id = th.getId();
+            if (tmp.containsKey(id) || th.getMyKind() == KindOfItem.UNKNOWN) {
+                return false;
+            }
+            tmp.put(id, th);
+        }
+        things = tmp;
         return true;
     }
 
