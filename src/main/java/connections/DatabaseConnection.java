@@ -1,5 +1,6 @@
 package connections;
 
+import data.Factory;
 import data.KindOfItem;
 import data.Market;
 import data.abstracts.Thing;
@@ -113,8 +114,8 @@ public class DatabaseConnection {
 
     private static List<Thing> getAllByType(Connection connection, KindOfItem kind) throws SQLException {
         List<Thing> result = new ArrayList<>();
-        PreparedStatement statement = connection.prepareStatement(getAllCars);
-        String s = "hp";
+        PreparedStatement statement;
+        String s;
         switch (kind){
             case GUITAR:
                 statement = connection.prepareStatement(getAllGuitars);
@@ -126,6 +127,9 @@ public class DatabaseConnection {
                 break;
             case CAR:
             case UNKNOWN:
+            default:
+                statement = connection.prepareStatement(getAllCars);
+                s = "hp";
                 break;
         }
         ResultSet rs = statement.executeQuery();
@@ -135,19 +139,9 @@ public class DatabaseConnection {
             double price = rs.getDouble("price");
             int specific = rs.getInt(s);
 
-            Thing one = new Car(id, name, price, specific);
-            switch (kind){
-                case GUITAR:
-                    one = new Guitar(id, name, price, specific);
-                    break;
-                case WATCH:
-                    one = new Watch(id, name, price, specific);
-                    break;
-                case CAR:
-                case UNKNOWN:
-                    break;
-            }
-            result.add(one);
+            Thing one = Factory.ThingByType(id, name, price, specific, kind);
+            if (one != null)
+                result.add(one);
         }
         statement.close();
         return result;

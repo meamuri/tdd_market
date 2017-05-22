@@ -25,6 +25,20 @@ public class Factory {
         }
     }
 
+    public static Thing ThingByType(Long id, String title, double price, int spec, KindOfItem type) {
+        switch (type){
+            case CAR:
+                return new Car(id, title, price, spec);
+            case GUITAR:
+                return new Guitar(id, title, price, spec);
+            case WATCH:
+                return new Watch(id, title, price, spec);
+            case UNKNOWN:
+            default:
+                return null;
+        }
+    }
+
     private static void trimParams(String[] params) {
         for (int i = 0; i < params.length; ++i) {
             params[i] = params[i].trim();
